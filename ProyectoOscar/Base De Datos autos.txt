@@ -1,0 +1,103 @@
+ //--------------------------------------------SECCIÒN AUTOS-------------------------------------------//
+
+    /* Metodo para ingresar un auto a la BD*/
+    public boolean insertarAuto(String marca, String modelo, String kilometraje,String ValorAlquiler,  String color,  String numero_placa,  String transmision,String tamaño,String aire_acondicionado,String fecha){
+        String consulta = "INSERT INTO autos(marca, modelo,kilometraje,ValorAlquiler,color, numero_placa,transmision,tamaño,aire_acondicionado,fecha) VALUES ('"+marca+"','"+modelo+"','"+kilometraje+"','"+ValorAlquiler+"','"+color+"','"+numero_placa+"','"+transmision+"','"+tamaño+"','"+aire_acondicionado+"','"+fecha+"') ";    
+        try{
+            int respuesta = manipularDB.executeUpdate(consulta);
+            if (respuesta>0) {
+                System.out.println("REGISTRO INSERTADO CON EXITO");
+                return true;
+            }else{
+                return false;
+            }
+        }catch(SQLException e){
+            System.out.println("Error al insertar: "+e.getMessage());
+            return false;
+        }
+    }
+    
+    /*Metodo Para buscar un auto que esta ya registrado en la BD*/
+    public Autos buscarAuto(String placa){
+        Autos temp = null;
+        try{
+            ResultSet registros = this.manipularDB.executeQuery("SELECT * FROM autos WHERE numero_placa='"+placa+"' ");
+            registros.next();
+            if (registros.getRow()==1) {
+                temp = new Autos (registros.getString("id"), registros.getString("marca"),registros.getString("modelo"), registros.getString("kilometraje"), registros.getString("valorAlquiler"), registros.getString("color"), registros.getString("id"), registros.getString("transmision"), registros.getString("tamaño"), registros.getString("aire_acondicionado"), registros.getString("fecha"));
+            }
+            return temp;
+        }catch(SQLException e){
+            System.out.println("Error en SELECT: "+e.getMessage());
+            return temp;
+        }
+    }
+    
+    /*Metodo para editar productos*/
+    public boolean editarAutos(Autos auto){
+       boolean respuesta = false; 
+       String numero_placa = auto.getPlaca();
+       String id = auto.getId();
+       String marca = auto.getMarca();
+       String modelo = auto.getModelo();
+       String kilometraje = auto.getKilometraje();
+       String ValorAlquiler = auto.getValorAlquiler();
+       String color = auto.getColor();
+       String transmision = auto.getTransmision();
+       String tamaño= auto.getTamaño();
+       String aire_acondicionado = auto.getAire_acondicionado();
+       String fecha= auto.getFecha();
+        try {
+            String consulta = "UPDATE autos SET  id ='"+id+"',marca='"+marca+"',modelo='"+modelo+"', kilometraje='"+kilometraje+"', ValorAlquiler='"+ValorAlquiler+"', color='"+color+"',transmision='"+transmision+"',tamaño='"+tamaño+"',aire_acondicionado='"+aire_acondicionado+"', fecha='"+fecha+"' WHERE numero_placa='"+numero_placa+"'";
+            int resp = manipularDB.executeUpdate(consulta);
+            if (resp>0) {
+                respuesta = true;
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error en UPDATE: "+ex.getMessage());
+        }
+        return respuesta;
+    }
+    
+    /*Metoodo Para Eliminar Un Auto De La BD*/
+    public boolean eliminarAutos(Autos Auto){
+        boolean respuesta=false;
+        String placa =Auto.getPlaca();
+        try {
+                String consulta = "DELETE FROM autos WHERE numero_placa='"+placa+"' ";
+                int resp_consulta = manipularDB.executeUpdate(consulta);
+               if (resp_consulta==1) {
+              respuesta = true;
+       }
+        } catch (SQLException ex) {
+            System.out.println("--> Error Delete: " + ex.getMessage());
+         }
+
+        if (respuesta){
+            System.out.println("Eliminado con exito");
+         }else{
+            System.out.println("No se pudo Eliminar");
+        }
+        return true;
+    }
+    
+    /* Metodo Para listar los autos que ya estan registrados*/ 
+    public Autos[] listaAutos(){
+        Autos [] listaAutos = new Autos [100];
+        try{
+            ResultSet registros = this.manipularDB.executeQuery("SELECT * FROM autos");
+            registros.next();
+            if (registros.getRow()==1) {
+                int indice = 0;
+                do{
+                    Autos temp = new Autos( registros.getString("id"),registros.getString("marca"), registros.getString("modelo"), registros.getString("kilometraje"), registros.getString("valorAlquiler"), registros.getString("color"), registros.getString("numero_placa"), registros.getString("transmision"), registros.getString("tamaño"), registros.getString("aire_acondicionado"),registros.getString("fecha"));
+                    listaAutos[indice] = temp;
+                    indice++;
+                }while(registros.next());
+            }
+            return listaAutos;
+        }catch(SQLException e){
+            System.out.println("Error en SELECT: "+e.getMessage());
+            return listaAutos;
+        }
+    }
