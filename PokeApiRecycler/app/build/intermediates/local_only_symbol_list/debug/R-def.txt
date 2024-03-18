@@ -1,0 +1,33 @@
+R_DEF: Internal format may change without notice
+local
+color black
+color white
+drawable buttom_background
+drawable ic_launcher_background
+drawable ic_launcher_foreground
+drawable icono_pokeball
+drawable titulo_pokemon
+id alturaPokemon
+id btnAnterior
+id btnSiguiente
+id habiPokemon
+id idPokemon
+id imagenPokemon
+id imgDetalle
+id nombrePokemon
+id pesoPokemon
+id recyclar_pokemons
+id recycler_habilidad_pokemon
+id recycler_img_pokemon
+layout activity_main
+layout details_pokemon
+layout item_detalles
+layout item_image
+layout item_pokemon
+mipmap ic_launcher
+mipmap ic_launcher_round
+string app_name
+style Base.Theme.PokeApiRecycler
+style Theme.PokeApiRecycler
+xml backup_rules
+xml data_extraction_rules
