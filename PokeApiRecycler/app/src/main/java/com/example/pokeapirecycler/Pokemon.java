@@ -5,97 +5,53 @@ import android.os.Parcelable;
 
 import java.net.URL;
 import java.util.List;
-public class Pokemon implements Parcelable {
+
+public class Pokemon {
 
     private int number;
-    private String name;
-    private List<PokemonResponse.Ability> abilities;
-    private List<String> abilitiesNames;
-    private int height;
-    private int weight;
-    URL spriteUrl;
+    String nombre;
 
-    public Pokemon(int id, String name, List<String> abilitiesNames) {
+    String url;
+    int id_pokemon;
+
+    public Pokemon(String nombre, String url, int id_pokemon) {
+        this.nombre = nombre;
+        this.url = url;
+        this.id_pokemon = id_pokemon;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public String getNombre() {
+
+        return nombre;
     }
 
-    public List<String> getAbilitiesNames() {
-        return abilitiesNames;
+    public void setNombre(String nombre) {
+
+        this.nombre = nombre;
     }
 
-    public void setAbilitiesNames(List<String> abilitiesNames) {
-        this.abilitiesNames = abilitiesNames;
+    public String getUrl() {
+
+        return url;
     }
 
-    public URL getSpriteUrl() {
-        return spriteUrl;
+    public void setUrl(String url) {
+
+        this.url = url;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(number);
-        dest.writeString(name);
+    public int getId_pokemon() {
+
+        return id_pokemon;
     }
 
-    public static final Creator<Pokemon> CREATOR = new Creator<Pokemon>() {
-        @Override
-        public Pokemon createFromParcel(Parcel in) {
-            return new Pokemon(in);
-        }
+    public void setId_pokemon(int id_pokemon) {
 
-        @Override
-        public Pokemon[] newArray(int size) {
-            return new Pokemon[size];
-        }
-    };
-
-    private Pokemon(Parcel in) {
-        number = in.readInt();
-        name = in.readString();
-    }
-
-    private PokemonClickListener clickListener;
-
-    public PokemonClickListener getClickListener() {
-        return clickListener;
-    }
-
-    public void setClickListener(PokemonClickListener clickListener) {
-        this.clickListener = clickListener;
-    }
-
-    public interface PokemonClickListener {
-        void onPokemonClick(Pokemon pokemon);
-    }
-
-    public Pokemon(int number, String name) {
-        this.number = number;
-        this.name = name;
-    }
-
-    public List<PokemonResponse.Ability> getAbilities() {
-        return abilities;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public int getWeight() {
-        return weight;
+        this.id_pokemon = id_pokemon;
     }
     public int getNumber() {
         return number;
     }
-
-    public String getName() {
-        return name;
-    }
-
     public void setNumber(int number) {
         if (number < 10) {
             this.number = 0000 + number;
@@ -105,5 +61,4 @@ public class Pokemon implements Parcelable {
             this.number = number;
         }
     }
-
 }

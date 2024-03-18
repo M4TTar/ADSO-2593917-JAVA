@@ -39,7 +39,8 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="bottom"
                 android:text="ANTERIOR"
-                android:background="@drawable/buttom_background"/>
+                android:background="@drawable/buttom_background"
+                android:onClick="previousListPokemons"/>
 
             <Button
                 android:id="@+id/btnSiguiente"
@@ -47,7 +48,8 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="bottom"
                 android:text="SIGUIENTE"
-                android:background="@drawable/buttom_background"/>
+                android:background="@drawable/buttom_background"
+                android:onClick="nextListstPokemons"/>
 
         </LinearLayout>
 

@@ -10,36 +10,42 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-public class AdaptadorHabilidades extends RecyclerView.Adapter<AdaptadorHabilidades.ViewHolder> {
-    private List<PokemonResponse.Ability> abilities;
+public class AdaptadorHabilidades extends RecyclerView.Adapter<AdaptadorHabilidades.ViewHolder>{
 
-    public AdaptadorHabilidades(List<PokemonResponse.Ability> abilities) {
-        this.abilities = abilities;
+    List<HabilidadesPokemon> ListaHabilidadesPokemon;
+    public AdaptadorHabilidades(List<HabilidadesPokemon> lista) {
+
+        this.ListaHabilidadesPokemon = lista;
     }
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_detalles, parent, false);
-        return new ViewHolder(view);
+    public AdaptadorHabilidades.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View vista = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_detalles, parent, false);
+        return new ViewHolder(vista);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.habiPokemon.setText(abilities.get(position).getName());
+    public void onBindViewHolder(@NonNull AdaptadorHabilidades.ViewHolder holder, int position) {
+        HabilidadesPokemon temporal = ListaHabilidadesPokemon.get(position);
+        holder.cargarDatos(temporal);
     }
 
     @Override
     public int getItemCount() {
-        return abilities.size();
+        return ListaHabilidadesPokemon.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView habiPokemon;
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        TextView habiPokemon;
 
-        public ViewHolder(View itemView) {
+        public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            habiPokemon = itemView.findViewById(R.id.habiPokemon);
+            habiPokemon= itemView.findViewById(R.id.habiPokemon);
+        }
+
+        public void cargarDatos(HabilidadesPokemon datos) {
+            habiPokemon.setText(datos.getHabilidades());
         }
     }
 }

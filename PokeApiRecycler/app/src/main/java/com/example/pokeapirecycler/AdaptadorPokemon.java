@@ -25,25 +25,14 @@ import okhttp3.ResponseBody;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class AdaptadorPokemon extends RecyclerView.Adapter<AdaptadorPokemon.ViewHolder> {
-    List<Pokemon> listaPokemon;
-    Context contexto; // Declarar la variable contexto
+public class AdaptadorPokemon  extends RecyclerView.Adapter<AdaptadorPokemon.ViewHolder>{
+    List<Pokemon> ListaPokemons;
+    public AdaptadorPokemon(List<Pokemon> lista) {
 
-    public AdaptadorPokemon(List<Pokemon> listaPokemon, Context contexto) { // Agregar el contexto como parámetro en el constructor
-        this.listaPokemon = listaPokemon;
-        this.contexto = contexto; // Asignar el contexto recibido al contexto del adaptador
-        for (Pokemon pokemon : listaPokemon) {
-            pokemon.setClickListener(new Pokemon.PokemonClickListener() {
-                @Override
-                public void onPokemonClick(Pokemon pokemon) {
-                    // Aquí puedes manejar el evento de clic. Por ejemplo, puedes iniciar una nueva Actividad para mostrar los detalles del Pokémon.
-                    Intent intent = new Intent(contexto, DetallesPokemon.class);
-                    intent.putExtra("pokemon", pokemon);
-                    contexto.startActivity(intent);
-                }
-            });
-        }
+        this.ListaPokemons = lista;
     }
+
+
 
     @NonNull
     @Override
@@ -54,33 +43,51 @@ public class AdaptadorPokemon extends RecyclerView.Adapter<AdaptadorPokemon.View
 
     @Override
     public void onBindViewHolder(@NonNull AdaptadorPokemon.ViewHolder holder, int position) {
-        Pokemon pokemon = listaPokemon.get(position);
+        Pokemon pokemon = ListaPokemons.get(position);
         holder.idPokemon.setText(String.format("%04d", pokemon.getNumber()));
-        holder.nombrePokemon.setText(pokemon.getName());
+        holder.nombrePokemon.setText(pokemon.getNombre());
+        holder.cargarDatos(pokemon);
 
-        holder.itemView.setOnClickListener(v -> {
-            Intent intent = new Intent(contexto, DetallesPokemon.class);
-            intent.putExtra(DetallesPokemon.EXTRA_POKEMON, pokemon);
-            contexto.startActivity(intent);
-        });
     }
 
     @Override
     public int getItemCount() {
-        return listaPokemon.size();
+        return ListaPokemons.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+        TextView nombrePokemon;
+        TextView idPokemon;
+        ImageView imgDetalle;
+        Context contexto;
+        String url;
+        String namePokemon;
 
-        public TextView idPokemon;
-        public TextView nombrePokemon;
-        public ImageView imgPokemon;
+        int id_pokemon;
 
-        public ViewHolder(View itemView) {
+        public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            idPokemon = itemView.findViewById(R.id.idPokemon);
+            contexto = itemView.getContext();
             nombrePokemon = itemView.findViewById(R.id.nombrePokemon);
-            imgPokemon = itemView.findViewById(R.id.imgPokemon);
+            imgDetalle = itemView.findViewById(R.id.imgDetalle);
+            idPokemon = itemView.findViewById(R.id.idPokemon);
+
+        }
+        public  void cargarDatos(Pokemon datos){
+            nombrePokemon.setText(datos.getNombre());
+            idPokemon.setText("00"+datos.getId_pokemon());
+            url = datos.getUrl();
+            namePokemon = datos.getNombre();
+            id_pokemon = datos.getId_pokemon();
+            imgDetalle.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(contexto, DetallesPokemon.class);
+                    intent.putExtra("url", url);
+                    intent.putExtra("namePokemon", namePokemon);
+                    contexto.startActivity(intent);
+                }
+            });
         }
     }
 }
